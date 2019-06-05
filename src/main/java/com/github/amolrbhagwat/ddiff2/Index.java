@@ -26,5 +26,12 @@ public class Index {
 					index.get(filename).add(f.getParent());
 				});
 	}
+	
+	public ArrayList<String> directoriesContainingFile(String filename) {
+		if(index.containsKey(filename)) {
+			return index.get(filename);
+		}
+		return new ArrayList<String>();
+	}
 
 }
