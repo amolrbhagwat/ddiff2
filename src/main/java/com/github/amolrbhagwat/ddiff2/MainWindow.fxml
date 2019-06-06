@@ -6,6 +6,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.cell.*?>
 
 <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
   <columnConstraints>
@@ -52,7 +53,7 @@
       </HBox>
       <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
          <children>
-            <Button id="diffButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Diff">
+            <Button id="diffButton" onAction="#diff" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Diff">
                <VBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </VBox.margin>
@@ -65,10 +66,23 @@
             <Insets />
          </GridPane.margin>
       </VBox>
-      <TableView id="resultsTableView" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
-        <columns>
-          <TableColumn prefWidth="75.0" text="C1" />
-          <TableColumn prefWidth="75.0" text="C2" />
+      <TableView id="resultsTableView" fx:id="resultsTableView" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
+         <columns>
+          <TableColumn text="Filename" fx:id="filenameColumn">
+              <cellValueFactory>
+                  <PropertyValueFactory property="filenameProperty" />
+              </cellValueFactory>
+          </TableColumn>
+          <TableColumn text="Status" fx:id="statusColumn">
+              <cellValueFactory>
+                  <PropertyValueFactory property="statusProperty" />
+              </cellValueFactory>
+          </TableColumn>
+          <TableColumn text="Comment" fx:id="commentColumn">
+              <cellValueFactory>
+                  <PropertyValueFactory property="commentProperty" />
+              </cellValueFactory>
+          </TableColumn>
         </columns>
       </TableView>
    </children>
