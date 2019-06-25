@@ -15,9 +15,9 @@ public class DirectoryDiffer {
 		
 		Files.walk(Paths.get(sourceDirectory.toURI()))
 		.filter(p -> Files.isRegularFile(p))
-		.map(p -> p.toFile())
-		.forEach(f -> {
-			String filename = f.getName(); 
+		.forEach(p -> {
+			File file = p.toFile();
+			String filename = file.getName();
 			ArrayList<String> directories = index.directoriesContainingFile(filename);
 			
 			DiffStatus status;
@@ -43,7 +43,7 @@ public class DirectoryDiffer {
 				break;
 			}
 			
-			results.add(new DiffResult(filename, status, stringBuffer.toString()));
+			results.add(new DiffResult(filename, file.getPath(), status, stringBuffer.toString()));
 		});
 		
 		return results;

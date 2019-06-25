@@ -27,6 +27,7 @@ public class App extends Application
 
 	@FXML TableView<DiffResult> resultsTableView;
 	@FXML TableColumn<DiffResult, String> filenameColumn;
+	@FXML TableColumn<DiffResult, String> sourcePathColumn;
 	@FXML TableColumn<DiffResult, String> statusColumn;
 	@FXML TableColumn<DiffResult, String> commentColumn;
 
@@ -48,6 +49,8 @@ public class App extends Application
     private void initialize() {
 		filenameColumn.setCellValueFactory(cellData ->
 			cellData.getValue().filenameProperty());
+		sourcePathColumn.setCellValueFactory(cellData ->
+			cellData.getValue().sourcePathProperty());
 		statusColumn.setCellValueFactory(cellData ->
 			cellData.getValue().statusProperty());
 		commentColumn.setCellValueFactory(cellData ->

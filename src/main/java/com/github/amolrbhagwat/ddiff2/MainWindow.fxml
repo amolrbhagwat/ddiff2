@@ -73,6 +73,11 @@
                   <PropertyValueFactory property="filenameProperty" />
               </cellValueFactory>
           </TableColumn>
+          <TableColumn text="Source Path" fx:id="sourcePathColumn">
+              <cellValueFactory>
+                  <PropertyValueFactory property="sourcePathProperty" />
+              </cellValueFactory>
+          </TableColumn>
           <TableColumn text="Status" fx:id="statusColumn">
               <cellValueFactory>
                   <PropertyValueFactory property="statusProperty" />
