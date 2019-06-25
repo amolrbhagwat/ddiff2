@@ -66,7 +66,10 @@ public class App extends Application
 
 	@FXML
 	public void setSourceDirectory(ActionEvent event) {
-		File selectedDirectory = new DirectoryChooser().showDialog(stage);
+		DirectoryChooser directoryChooser = new DirectoryChooser();
+		directoryChooser.setInitialDirectory(sourceDirectory);
+
+		File selectedDirectory = directoryChooser.showDialog(stage);
 
 		if(selectedDirectory != null) {
 			sourceDirectory = selectedDirectory;
@@ -76,7 +79,10 @@ public class App extends Application
 
 	@FXML
 	public void setTargetDirectory(ActionEvent event) throws IOException {
-		File selectedDirectory = new DirectoryChooser().showDialog(stage);
+		DirectoryChooser directoryChooser = new DirectoryChooser();
+		directoryChooser.setInitialDirectory(targetDirectory);
+
+		File selectedDirectory = directoryChooser.showDialog(stage);
 
 		if(selectedDirectory != null) {
 			targetDirectory = selectedDirectory;
