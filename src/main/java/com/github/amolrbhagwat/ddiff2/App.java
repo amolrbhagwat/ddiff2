@@ -101,6 +101,7 @@ public class App extends Application
 		Parent root = loader.load();
 
 		Scene scene = new Scene(root);
+		primaryStage.setTitle("Ddiff2");
 		primaryStage.setScene(scene);
 		primaryStage.show();
 

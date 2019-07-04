@@ -10,11 +10,12 @@
 
 <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
   <columnConstraints>
-      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="40.0" />
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="40.0" />
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="-Infinity" prefWidth="100.0" />
   </columnConstraints>
   <rowConstraints>
+    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -28,7 +29,7 @@
       <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
          <children>
             <TextField fx:id="sourceDirTextView" editable="false" HBox.hgrow="ALWAYS" />
-            <Button id="selectSourceDirButton" onAction="#setSourceDirectory" mnemonicParsing="false" text="Select" />
+            <Button id="selectSourceDirButton" mnemonicParsing="false" onAction="#setSourceDirectory" text="Select" />
          </children>
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -45,50 +46,53 @@
       <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
          <children>
             <TextField fx:id="targetDirTextView" editable="false" HBox.hgrow="ALWAYS" />
-            <Button id="selectTargetDirButton" onAction="#setTargetDirectory" mnemonicParsing="false" text="Select" />
+            <Button id="selectTargetDirButton" mnemonicParsing="false" onAction="#setTargetDirectory" text="Select" />
          </children>
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
       </HBox>
-      <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
-         <children>
-            <Button id="diffButton" onAction="#diff" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Diff">
-               <VBox.margin>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </VBox.margin>
-            </Button>
-         </children>
-         <padding>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </padding>
-         <GridPane.margin>
-            <Insets />
-         </GridPane.margin>
-      </VBox>
       <TableView id="resultsTableView" fx:id="resultsTableView" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
          <columns>
-          <TableColumn text="Filename" fx:id="filenameColumn">
+          <TableColumn fx:id="filenameColumn" text="Filename">
               <cellValueFactory>
                   <PropertyValueFactory property="filenameProperty" />
               </cellValueFactory>
           </TableColumn>
-          <TableColumn text="Source Path" fx:id="sourcePathColumn">
+          <TableColumn fx:id="sourcePathColumn" text="Source Path">
               <cellValueFactory>
                   <PropertyValueFactory property="sourcePathProperty" />
               </cellValueFactory>
           </TableColumn>
-          <TableColumn text="Status" fx:id="statusColumn">
+          <TableColumn fx:id="statusColumn" text="Status">
               <cellValueFactory>
                   <PropertyValueFactory property="statusProperty" />
               </cellValueFactory>
           </TableColumn>
-          <TableColumn text="Comment" fx:id="commentColumn">
+          <TableColumn fx:id="commentColumn" text="Comment">
               <cellValueFactory>
                   <PropertyValueFactory property="commentProperty" />
               </cellValueFactory>
           </TableColumn>
         </columns>
       </TableView>
+      <Button id="diffButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#diff" text="Diff" GridPane.columnIndex="2" GridPane.rowIndex="3">
+         <GridPane.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </GridPane.margin></Button>
+      <ChoiceBox disable="true" prefWidth="150.0" GridPane.columnIndex="2">
+         <GridPane.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </GridPane.margin></ChoiceBox>
+      <ToggleButton disable="true" mnemonicParsing="false" text="Do not rescan" GridPane.columnIndex="2" GridPane.rowIndex="1">
+         <GridPane.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </GridPane.margin></ToggleButton>
+      <TextField disable="true" editable="false" GridPane.columnSpan="2" GridPane.rowIndex="3">
+         <GridPane.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </GridPane.margin>
+      </TextField>
+
    </children>
 </GridPane>
