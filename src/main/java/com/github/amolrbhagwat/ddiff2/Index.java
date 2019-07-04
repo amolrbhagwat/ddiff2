@@ -10,10 +10,10 @@ import java.util.HashMap;
 
 public class Index {
 	
-	private HashMap<String, ArrayList<String>> index;
+	private HashMap<String, ArrayList<IndexedFile>> index;
 
 	Index(File directory) throws IOException {
-		index = new HashMap<String, ArrayList<String>>();
+		index = new HashMap<String, ArrayList<IndexedFile>>();
 
 		Files.walk(Paths.get(directory.toURI()))
 				.filter(p -> Files.isRegularFile(p))
@@ -21,17 +21,21 @@ public class Index {
 				.forEach(f -> {
 					String filename = f.getName(); 
 					if(!index.containsKey(filename)) {
-						index.put(filename, new ArrayList<String>());
+						index.put(filename, new ArrayList<IndexedFile>());
 					}
-					index.get(filename).add(f.getParent());
+					index.get(filename).add(new IndexedFile(f));
 				});
 	}
 	
 	public ArrayList<String> directoriesContainingFile(String filename) {
+		ArrayList<String> directories = new ArrayList<String>();
+		
 		if(index.containsKey(filename)) {
-			return index.get(filename);
+			for(IndexedFile file : index.get(filename)) {
+				directories.add(file.getFileDirectory());
+			}
 		}
-		return new ArrayList<String>();
+		return directories;
 	}
 
 }
