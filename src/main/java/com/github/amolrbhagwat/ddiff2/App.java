@@ -3,6 +3,8 @@ package com.github.amolrbhagwat.ddiff2;
 import java.io.File;
 import java.io.IOException;
 
+import com.github.amolrbhagwat.ddiff2.DirectoryDiffer.DiffType;
+
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -42,7 +44,7 @@ public class App extends Application
 	public void diff(ActionEvent event) throws IOException {
 		Index index = new Index(targetDirectory);
 
-		diffResults.setAll(DirectoryDiffer.diff(sourceDirectory, index));
+		diffResults.setAll(DirectoryDiffer.diff(sourceDirectory, index, DiffType.FilenameOnly));
 	}
 
 	@FXML

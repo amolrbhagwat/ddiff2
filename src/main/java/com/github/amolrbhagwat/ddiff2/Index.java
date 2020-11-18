@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Index {
-	
+
 	private HashMap<String, ArrayList<IndexedFile>> index;
 
 	Index(File directory) throws IOException {
@@ -26,7 +26,7 @@ public class Index {
 					index.get(filename).add(new IndexedFile(f));
 				});
 	}
-	
+
 	public ArrayList<String> directoriesContainingFile(String filename) {
 		ArrayList<String> directories = new ArrayList<String>();
 		
@@ -36,6 +36,13 @@ public class Index {
 			}
 		}
 		return directories;
+	}
+
+	public ArrayList<IndexedFile> getIndexedFiles(String filename) {
+		if (index.containsKey(filename))
+		    return index.get(filename);
+		else
+			return new ArrayList<IndexedFile>();
 	}
 
 }
