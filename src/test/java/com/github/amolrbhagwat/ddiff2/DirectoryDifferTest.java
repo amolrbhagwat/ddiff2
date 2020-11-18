@@ -153,6 +153,64 @@ public class DirectoryDifferTest extends TestCase {
     	assertEquals(DiffStatus.ERROR.toString(), results.get(0).getStatus());
     }
     
+    public void test_ChecksumIfMultiple_fileNotPresentInTarget_returnsError() throws IOException
+    {
+    	createFile(Paths.get(srcDir.getPath(), "a").toString(), "Doesn't matter");
+    	
+    	var results = DirectoryDiffer.diff(srcDir, new Index(targetDir), DiffType.ChecksumIfMultiple); 
+    	
+    	assertEquals(1, results.size());
+    	assertEquals(DiffStatus.ERROR.toString(), results.get(0).getStatus()); 
+    }
+    
+    public void test_ChecksumIfMultiple_filePresentInTargetInOneDirectorySameContent_returnsSuccess() throws IOException
+    {
+    	createFile(Paths.get(srcDir.getPath(), "a").toString(), "foo");
+    	createFile(Paths.get(targetDir.getPath(), "a").toString(), "foo");
+    	
+    	var results = DirectoryDiffer.diff(srcDir, new Index(targetDir), DiffType.ChecksumIfMultiple); 
+    	
+    	assertEquals(1, results.size());
+    	assertEquals(DiffStatus.SUCCESS.toString(), results.get(0).getStatus());
+    }
+    
+    public void test_ChecksumIfMultiple_filePresentInTargetInOneDirectoryDifferentContent_returnsSuccess() throws IOException
+    {
+    	createFile(Paths.get(srcDir.getPath(), "a").toString(), "foo");
+    	createFile(Paths.get(targetDir.getPath(), "a").toString(), "bar");
+    	
+    	var results = DirectoryDiffer.diff(srcDir, new Index(targetDir), DiffType.ChecksumIfMultiple); 
+    	
+    	assertEquals(1, results.size());
+    	assertEquals(DiffStatus.SUCCESS.toString(), results.get(0).getStatus());
+    }
+    
+    public void test_ChecksumIfMultiple_filePresentInTargetInMoreThanOneDirectoryAtLeastOneMatch_returnsSuccess() throws IOException
+    {
+    	createFile(Paths.get(srcDir.getPath(), "a").toString(), "foo");
+    	createFile(Paths.get(targetDir.getPath(), "a").toString(), "rat");
+    	createFile(Paths.get(targetDir.getPath(), "folder1", "a").toString(), "cat");
+    	createFile(Paths.get(targetDir.getPath(), "folder2", "a").toString(), "foo");
+    	
+    	var results = DirectoryDiffer.diff(srcDir, new Index(targetDir), DiffType.ChecksumIfMultiple); 
+    	
+    	assertEquals(1, results.size());
+    	assertEquals(DiffStatus.SUCCESS.toString(), results.get(0).getStatus());
+    }
+    
+    public void test_ChecksumIfMultiple_filePresentInTargetInMoreThanOneDirectoryNoMatch_returnsError() throws IOException
+    {
+    	createFile(Paths.get(srcDir.getPath(), "a").toString(), "foo");
+    	createFile(Paths.get(targetDir.getPath(), "a").toString(), "rat");
+    	createFile(Paths.get(targetDir.getPath(), "folder1", "a").toString(), "cat");
+    	createFile(Paths.get(targetDir.getPath(), "folder2", "a").toString(), "mat");
+    	
+    	var results = DirectoryDiffer.diff(srcDir, new Index(targetDir), DiffType.ChecksumIfMultiple); 
+    	
+    	assertEquals(1, results.size());
+    	assertEquals(DiffStatus.ERROR.toString(), results.get(0).getStatus());
+    }
+    
     private void createFile(String fullFilenameString, String content) throws IOException
     {
     	File file = new File(fullFilenameString);

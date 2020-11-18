@@ -27,6 +27,7 @@ public class DirectoryDiffer {
 		case FilenameOnly:
 			return filenameOnlyDiff(sourceDirectory, index);
 		case ChecksumIfMultiple:
+			return checksumIfMultipleDiff(sourceDirectory, index);
 		case ChecksumForAll:
 			return checksumForAllDiff(sourceDirectory, index);
 		default:
@@ -62,6 +63,56 @@ public class DirectoryDiffer {
 				for(String dir : directories) {
 					stringBuffer.append(" ");
 					stringBuffer.append(dir);
+				}
+				break;
+			}
+			
+			results.add(new DiffResult(filename, file.getPath(), status, stringBuffer.toString()));
+		});
+		
+		return results;
+	}
+	
+	private static ArrayList<DiffResult> checksumIfMultipleDiff(File sourceDirectory, Index index) throws IOException {
+		ArrayList<DiffResult> results = new ArrayList<DiffResult>();
+		
+		Files.walk(Paths.get(sourceDirectory.toURI()))
+		.filter(p -> Files.isRegularFile(p))
+		.forEach(p -> {
+			File file = p.toFile();
+			String filename = file.getName();
+			ArrayList<String> directories = index.directoriesContainingFile(filename);
+			
+			DiffStatus status;
+			StringBuffer stringBuffer = new StringBuffer("");
+			switch (directories.size()) {
+			case 0:
+				status = DiffStatus.ERROR;
+				stringBuffer.append("File not present in the target directory.");
+				break;
+			case 1:
+				status = DiffStatus.SUCCESS;
+				stringBuffer.append("File present at: ");
+				stringBuffer.append(directories.get(0));
+				break;
+			default:				
+				status = DiffStatus.ERROR;
+				
+				String sourceFileDigest = new IndexedFile(file).getChecksum(); // TODO: Fix this hack!
+				
+				ArrayList<IndexedFile> allIndexedFiles = index.getIndexedFiles(filename);
+				for (IndexedFile indexedFile : allIndexedFiles) {
+					if (indexedFile.getChecksum().equals(sourceFileDigest)) {
+						status = DiffStatus.SUCCESS;
+						stringBuffer.append("File present at:");
+						stringBuffer.append(indexedFile.getFileDirectory());
+						break;
+					}
+				}
+				
+				if (status == DiffStatus.ERROR)
+				{
+					stringBuffer.append("File not present in the target directory.");
 				}
 				break;
 			}
