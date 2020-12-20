@@ -14,6 +14,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -32,6 +33,8 @@ public class App extends Application
 	@FXML TableColumn<DiffResult, String> sourcePathColumn;
 	@FXML TableColumn<DiffResult, String> statusColumn;
 	@FXML TableColumn<DiffResult, String> commentColumn;
+	
+	@FXML ChoiceBox<DiffType> diffTypeChoiceBox;
 
 	Stage stage;
 
@@ -44,7 +47,7 @@ public class App extends Application
 	public void diff(ActionEvent event) throws IOException {
 		Index index = new Index(targetDirectory);
 
-		diffResults.setAll(DirectoryDiffer.diff(sourceDirectory, index, DiffType.FilenameOnly));
+		diffResults.setAll(DirectoryDiffer.diff(sourceDirectory, index, diffTypeChoiceBox.getValue()));
 	}
 
 	@FXML
@@ -60,6 +63,9 @@ public class App extends Application
 
 		diffResults = FXCollections.observableArrayList();
 		resultsTableView.setItems(diffResults);
+		
+		diffTypeChoiceBox.getItems().setAll(DiffType.values());
+		diffTypeChoiceBox.setValue(DiffType.FilenameOnly);
     }
 
 	public ObservableList<DiffResult> getDiffResults() {
