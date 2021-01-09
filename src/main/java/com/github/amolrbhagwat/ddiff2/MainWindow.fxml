@@ -88,7 +88,7 @@
          <GridPane.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </GridPane.margin></ToggleButton>
-      <TextField disable="true" editable="false" GridPane.columnSpan="2" GridPane.rowIndex="3">
+      <TextField fx:id="statusTextField" disable="true" editable="false" GridPane.columnSpan="2" GridPane.rowIndex="3">
          <GridPane.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </GridPane.margin>

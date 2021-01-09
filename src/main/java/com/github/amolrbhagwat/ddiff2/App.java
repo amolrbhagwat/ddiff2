@@ -2,6 +2,8 @@ package com.github.amolrbhagwat.ddiff2;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
 
 import com.github.amolrbhagwat.ddiff2.DirectoryDiffer.DiffType;
 
@@ -35,6 +37,8 @@ public class App extends Application
 	@FXML TableColumn<DiffResult, String> commentColumn;
 	
 	@FXML ChoiceBox<DiffType> diffTypeChoiceBox;
+	
+	@FXML TextField statusTextField;
 
 	Stage stage;
 
@@ -45,9 +49,18 @@ public class App extends Application
 
 	@FXML
 	public void diff(ActionEvent event) throws IOException {
+		var startTime = Instant.now();
+		
 		Index index = new Index(targetDirectory);
 
 		diffResults.setAll(DirectoryDiffer.diff(sourceDirectory, index, diffTypeChoiceBox.getValue()));
+		
+		var endTime = Instant.now();
+		var timeTaken = Duration.between(startTime, endTime);
+		
+		statusTextField.setText(String.format("Time taken: %d:%02d:%02d", timeTaken.toHours(),
+															timeTaken.toMinutesPart(),
+															timeTaken.toSecondsPart()));
 	}
 
 	@FXML
