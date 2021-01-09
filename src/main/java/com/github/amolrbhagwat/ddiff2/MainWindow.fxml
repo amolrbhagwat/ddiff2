@@ -84,7 +84,7 @@
          <GridPane.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </GridPane.margin></ChoiceBox>
-      <ToggleButton disable="true" mnemonicParsing="false" text="Do not rescan" GridPane.columnIndex="2" GridPane.rowIndex="1">
+      <ToggleButton fx:id="noRescanButton" disable="true" mnemonicParsing="false" text="Do not rescan" GridPane.columnIndex="2" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </GridPane.margin></ToggleButton>

@@ -20,6 +20,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
@@ -39,6 +40,8 @@ public class App extends Application
 	@FXML ChoiceBox<DiffType> diffTypeChoiceBox;
 	
 	@FXML TextField statusTextField;
+	
+	@FXML ToggleButton noRescanButton;
 
 	Stage stage;
 
@@ -46,12 +49,16 @@ public class App extends Application
 	File targetDirectory;
 
 	private ObservableList<DiffResult> diffResults;
+	
+	Index index = null;
 
 	@FXML
 	public void diff(ActionEvent event) throws IOException {
 		var startTime = Instant.now();
 		
-		Index index = new Index(targetDirectory);
+		if(index == null || !noRescanButton.isSelected()) {
+			index = new Index(targetDirectory);
+		}
 
 		diffResults.setAll(DirectoryDiffer.diff(sourceDirectory, index, diffTypeChoiceBox.getValue()));
 		
@@ -61,6 +68,8 @@ public class App extends Application
 		statusTextField.setText(String.format("Time taken: %d:%02d:%02d", timeTaken.toHours(),
 															timeTaken.toMinutesPart(),
 															timeTaken.toSecondsPart()));
+		
+		noRescanButton.setDisable(false);
 	}
 
 	@FXML
@@ -108,6 +117,8 @@ public class App extends Application
 		if(selectedDirectory != null) {
 			targetDirectory = selectedDirectory;
 			targetDirTextView.setText(targetDirectory.toString());
+			noRescanButton.setSelected(false);
+			noRescanButton.setDisable(true);
 		}
 	}
 
