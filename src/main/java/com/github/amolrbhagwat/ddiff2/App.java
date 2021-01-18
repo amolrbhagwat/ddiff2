@@ -59,15 +59,38 @@ public class App extends Application
 		if(index == null || !noRescanButton.isSelected()) {
 			index = new Index(targetDirectory);
 		}
-
-		diffResults.setAll(DirectoryDiffer.diff(sourceDirectory, index, diffTypeChoiceBox.getValue()));
+		
+		var results = DirectoryDiffer.diff(sourceDirectory, index, diffTypeChoiceBox.getValue());
+		
+		int errors = 0, warns = 0, successes = 0;
+		
+		for(var row : results) {
+			switch(row.getStatus()) {
+			case "SUCCESS":
+				successes++;
+				break;
+			case "WARNING":
+				warns++;
+				break;
+			case "ERROR":
+				errors++;
+				break;
+			}
+		}
+		
+		int total = results.size();
+		diffResults.setAll(results);
+		
+		String statusMessage = "Successes: " + successes + "/" + total + " Warnings: " + warns + "/" + total + " Errors: " + errors + "/" + total;
+		
 		
 		var endTime = Instant.now();
 		var timeTaken = Duration.between(startTime, endTime);
 		
-		statusTextField.setText(String.format("Time taken: %d:%02d:%02d", timeTaken.toHours(),
-															timeTaken.toMinutesPart(),
-															timeTaken.toSecondsPart()));
+		String timeTakenMessage = String.format(" Time taken: %d:%02d:%02d", timeTaken.toHours(), timeTaken.toMinutesPart(), timeTaken.toSecondsPart());
+		
+		
+		statusTextField.setText(statusMessage + timeTakenMessage);
 		
 		noRescanButton.setDisable(false);
 	}
